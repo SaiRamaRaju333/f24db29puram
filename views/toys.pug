@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .container
+    h1 Search Results for Toys List
+    p Welcome to Sai Rama Raju's #{title} List
+    .row
+      each toy in toys
+        .col-sm-4  
+          .card.mb-3  
+            .card-body
+              h5.card-title #{toy.name}
+              p.card-text Type: #{toy.type}
+              p.card-text Age Range: #{toy.price_range}
