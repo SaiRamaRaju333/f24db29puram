@@ -1,0 +1,53 @@
+extends layout
+
+block content
+    h1 Toy Update
+
+    if (toShow == null)
+        h2 No instance found to update
+    else
+        - let toyid = toShow._id
+        - let name = toShow.name
+        - let price_range = toShow.price_range
+        - let type = toShow.type
+
+        div.row.mb-3
+            div.mr-1.font-weight-bold ID is:
+            div #{toyid}
+
+        - let actionid = "/resource/toys/" + toyid
+        form(id='toysForm', action=actionid, method="PUT")
+            div.form-group
+                label.toyAttr(for='name') Toy Name:
+                input#name(type='text', name='name', value=name, class='form-control')
+            div.form-group
+                label.toyAttr(for='type') Toy type:
+                input#type(type='text', name='type', value=type, class='form-control')
+            div.form-group
+                label.toyAttr(for='price_range') Toy price_range:
+                input#price_range(type='text', name='price_range', value=price_range, class='form-control')
+            input(type="submit", class="btn btn-primary mt-2")
+
+        button(class="btn btn-secondary mt-2 ml-2" onclick="goBack()") Cancel
+
+    script.
+        function goBack() {
+            window.location.href = "/toys";
+        }
+
+    script.
+        document.forms['toysForm'].addEventListener('submit', (event) => {
+            event.preventDefault();
+            fetch(event.target.action, {
+                method: 'PUT',
+                body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+            })
+            .then((resp) => resp.json())
+            .then((body) => {
+                alert("Update succeeded");
+                window.location.href = "/toys";
+            })
+            .catch((error) => {
+                alert("Update failed " + error);
+            });
+        });
