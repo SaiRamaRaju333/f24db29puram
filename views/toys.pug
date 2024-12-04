@@ -1,37 +1,59 @@
+//- //- extends layout
+
+//- //- block content
+//- //-   .container
+//- //-     h1 Search Results for Toys List
+//- //-     p Welcome to Sai Rama Raju's #{title} List
+//- //-     .row
+//- //-       each toy in toys
+//- //-         .col-sm-4  
+//- //-           .card.mb-3  
+//- //-             .card-body
+//- //-               h5.card-title #{toy.name}
+//- //-               p.card-text Type: #{toy.type}
+//- //-               p.card-text Age Range: #{toy.price_range}
+
 //- extends layout
 
 //- block content
-//-   .container
-//-     h1 Search Results for Toys List
-//-     p Welcome to Sai Rama Raju's #{title} List
+//-   h1 Search Results - Toys
+
+//-   .container-fluid
 //-     .row
-//-       each toy in toys
-//-         .col-sm-4  
-//-           .card.mb-3  
-//-             .card-body
-//-               h5.card-title #{toy.name}
-//-               p.card-text Type: #{toy.type}
-//-               p.card-text Age Range: #{toy.price_range}
-
-extends layout
-
-block content
-  h1 Search Results - Toys
-
-  .container-fluid
-    .row
-      each item in results
-        div.col-sm-3
-          h3 #{item.name}
-          p Type: #{item.type}
-          p Price_Range: #{item.price_range}
-          a(href=`/toys/${item._id}`) Inspect
-          a(href=`/toys/${item._id}/update`) Update
-          a(href=`/toys/${item._id}/delete`) Delete
+//-       each item in results
+//-         div.col-sm-3
+//-           h3 #{item.name}
+//-           p Type: #{item.type}
+//-           p Price_Range: #{item.price_range}
+//-           a(href=`/toys/${item._id}`) Inspect
+//-           a(href=`/toys/${item._id}/update`) Update
+//-           a(href=`/toys/${item._id}/delete`) Delete
   
-  a(href='/toys/create') Add New Toy
+//-   a(href='/toys/create') Add New Toy
 
+//-   script.
+//-     function buy(index) {
+//-       alert(`You purchased item ${index}`);
+//-     }
+extends layout
+ 
+block content
+  h1 Results - Toys
+ 
+  - let items = results
+  div(class="container-fluid")
+    div(class="col m-1")
+      each item in items
+        - let destination = `dispatch(\"/toys/update?id=${item._id}\")`
+        - let destination1 = `dispatch(\"/toys/detail?id=${item._id}\")`
+        - let destination2 = `dispatch(\"/toys/delete?id=${item._id}\")`
+        div(class="row-sm-2", class="m-1") Item #{item.name}(#{item.type}) is #{item.price_range}
+        button.btn( class="btn-primary m-1", onclick= destination) Update
+        br
+        br
+       
   script.
-    function buy(index) {
-      alert(`You purchased item ${index}`);
+    function dispatch(path){
+      window.location.href=path
     }
+ 
